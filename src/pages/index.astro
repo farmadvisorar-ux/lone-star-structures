@@ -51,7 +51,7 @@ const steps = [
 ];
 ---
 
-<Base title={site.name}>
+<Base title={site.name} preloadImage={heroImage()}>
   <!-- ================= HERO ================= -->
   {/* Split hero. The other option was one bleed photograph with the copy laid
       over it, but the catalogue photography is bright — pale steel against sky —
@@ -73,7 +73,7 @@ const steps = [
       </div>
     </div>
     <div class="hero__media">
-      <Placeholder label="Steel building exterior" src={heroImage()} alt="Engineered steel building on a finished site" class="hero__img" />
+      <Placeholder label="Steel building exterior" src={heroImage()} alt="Engineered steel building on a finished site" class="hero__img" priority />
     </div>
   </section>
 
