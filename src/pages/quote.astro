@@ -5,6 +5,7 @@ import types from '../data/building-types.json';
 import models from '../data/models.json';
 import pb from '../data/portable-buildings.json';
 import { phoneLive, phoneHref, contactName } from '../lib/contact';
+import { emailLive } from '../lib/contact';
 
 /**
  * Form delivery
@@ -58,7 +59,7 @@ const pbProducts = (pb as any).products;
           </li>
         </ul>
 
-        {!site.emailPending && site.emails && (
+        {emailLive && site.emails && (
           <p class="or-email">
             Rather not use a form? Send your details straight to
             <a href={`mailto:${site.emails.quotes}?subject=${encodeURIComponent('Quote request')}`}>{site.emails.quotes}</a>{phoneLive ? ',' : '.'}
@@ -187,7 +188,7 @@ const pbProducts = (pb as any).products;
           </fieldset>
 
           <!-- Formspree: sets the notification subject so leads are scannable in an inbox -->
-          <input type="hidden" name="_subject" value="New quote request — lonestarstructures.com" />
+          <input type="hidden" name="_subject" value={`New quote request — ${site.name}`} />
 
           <!-- honeypot (Formspree discards any submission where this is filled) -->
           <div class="visually-hidden" aria-hidden="true">

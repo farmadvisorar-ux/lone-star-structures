@@ -114,10 +114,13 @@ one place to get it wrong rather than nine.
       end to end. Sharing an endpoint with another site mixes both inboxes.
 - [ ] **Set up email forwarding** for `info@`, `sales@` and `quotes@`, then set
       `emailPending: false`.
-- [ ] **Point `astro.config.mjs` and `public/CNAME` at the real domain.** Both
-      currently read `lonestarstructures.com` as a placeholder. They drive canonical
-      URLs, the sitemap, OG image URLs and the custom domain — all four are
-      wrong until this is right.
+- [ ] **Point the site at a real domain when you have one.** There is no
+      custom domain yet, so `public/CNAME` is absent by intent and the build
+      falls back to the Vercel origin that actually serves the site — canonical
+      URLs, the sitemap and OG images all resolve. Set `PUBLIC_SITE_URL` in the
+      host environment to move it, and add `public/CNAME` only if you deploy to
+      GitHub Pages. Do not put a domain in either that you do not own.
+
 - [ ] **Warranty page** (`src/pages/about/warranty.astro`) — fill in the real terms
       from the dealer agreement and remove the red publish note. Do not publish
       specific durations that are not confirmed in writing.
@@ -307,7 +310,7 @@ variables in the project:
 
 | Variable | Value |
 |---|---|
-| `PUBLIC_SITE_URL` | the real origin, e.g. `https://lonestarstructures.com` |
+| `PUBLIC_SITE_URL` | the real origin once you own one; otherwise the build falls back to the Vercel domain serving the site |
 | `PUBLIC_FORM_ENDPOINT` | the form endpoint |
 
 `PUBLIC_SITE_URL` overrides the fallback in `astro.config.mjs`. Until it is set

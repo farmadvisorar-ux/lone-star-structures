@@ -7,7 +7,16 @@ export default defineConfig({
   // Canonical origin. Set PUBLIC_SITE_URL in the host's environment to
   // override without a code change — it drives canonical URLs, the sitemap
   // and the absolute OG image URLs, all of which are wrong until it is right.
-  site: process.env.PUBLIC_SITE_URL ?? 'https://lonestarstructures.com',
+  // Canonical origin. Set PUBLIC_SITE_URL in the host's environment to override
+  // without a code change — it drives canonical URLs, the sitemap and the
+  // absolute OG image URLs.
+  //
+  // The fallback is the origin actually serving the site. It is deliberately
+  // not an aspirational domain: one that does not resolve makes every og:image
+  // and canonical point at a dead host, which fails silently — the build is
+  // green and the only symptom is a blank preview card wherever the link is
+  // pasted.
+  site: process.env.PUBLIC_SITE_URL ?? 'https://lone-star-structures.vercel.app',
   output: 'static',
   build: { format: 'directory' },
   compressHTML: true,

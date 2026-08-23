@@ -2,6 +2,7 @@
 import Article from '../layouts/Article.astro';
 import site from '../data/site.json';
 import { phoneLive, phoneHref, addressLive, addressLine } from '../lib/contact';
+import { emailLive } from '../lib/contact';
 ---
 
 <Article
@@ -103,7 +104,7 @@ import { phoneLive, phoneHref, addressLive, addressLine } from '../lib/contact';
     hold about you, can be
     {/* The connector has to carry the sentence on its own once the address is
         withheld — "sent to the contact page" is not what a form is. */}
-    {!site.emailPending && (
+    {emailLive && (
       <Fragment> sent to <a href={`mailto:${site.emails.info}`}>{site.emails.info}</a> or</Fragment>
     )}
     {' '}raised through the <a href="/contact/">contact page</a>.

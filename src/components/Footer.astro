@@ -3,6 +3,7 @@ import site from '../data/site.json';
 import types from '../data/building-types.json';
 import pb from '../data/portable-buildings.json';
 import { phoneLive, phoneHref, addressStreet, addressLocality } from '../lib/contact';
+import { emailLive } from '../lib/contact';
 
 const year = new Date().getFullYear();
 const popular = ['garages', 'workshops', 'barndominium', 'quonset-buildings', 'container-covers', 'agricultural-and-farm'];
@@ -35,7 +36,7 @@ const pbPopular = ['barn', 'tool-shed-tall', 'utility-cabin', 'barn-garage', 'gr
           {/* Deliberately the general address only. This block is the NAP that
               directories and Google cross-reference, and it has to read the same
               on every page — sales@ and quotes@ live on /contact/ and /quote/. */}
-          {site.email && !site.emailPending && <a href={`mailto:${site.email}`}>{site.email}</a>}
+          {emailLive && <a href={`mailto:${site.email}`}>{site.email}</a>}
           <span class="foot-nap__hours">{site.hours}</span>
         </address>
         <p class="foot-notice">{site.dealerNotice}</p>

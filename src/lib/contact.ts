@@ -50,3 +50,15 @@ export const addressLocality: string = [
 ]
   .filter(Boolean)
   .join(' ');
+
+/**
+ * Whether an email address may be published.
+ *
+ * `emailPending` alone is not enough. It answers "is the mailbox receiving
+ * yet", not "is there an address at all" — flip it with the fields empty and
+ * every mailto: renders as `mailto:` with nothing after it, the same dead link
+ * a withheld phone number used to leave. Both conditions, one export, so the
+ * flag cannot publish a blank on its own.
+ */
+export const emailLive: boolean =
+  !site.emailPending && Boolean((site.email ?? '').trim());

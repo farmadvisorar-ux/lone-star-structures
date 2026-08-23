@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
 import { phoneLive, phoneHref, contactName, addressLive, addressLine } from '../lib/contact';
+import { emailLive } from '../lib/contact';
 
 // `||`, not `??`. An unset GitHub Actions variable interpolates as an empty
 // string rather than being absent, and `??` only falls through on null and
@@ -44,7 +45,7 @@ const mailboxes = [
               </dd>
             </div>
           )}
-          {!site.emailPending && site.emails && (
+          {emailLive && site.emails && (
             <div>
               <dt>Email</dt>
               <dd>
@@ -68,10 +69,10 @@ const mailboxes = [
           )}
         </dl>
 
-        {(site.emailPending || !phoneLive || !addressLive) && (
+        {(!emailLive || !phoneLive || !addressLive) && (
           <div class="admin-note">
             <strong>Publish note — remove before launch.</strong>
-            {site.emailPending && (
+            {!emailLive && (
               <Fragment>
                 {' '}The email address <code>{site.email}</code> is reserved but not yet
                 receiving. Set up forwarding, then flip <code>emailPending</code> to
@@ -139,7 +140,7 @@ const mailboxes = [
             <textarea id="message" name="message" rows="6" required></textarea>
           </div>
 
-          <input type="hidden" name="_subject" value="New message — lonestarstructures.com" />
+          <input type="hidden" name="_subject" value={`New message — ${site.name}`} />
 
           <div class="visually-hidden" aria-hidden="true">
             <label for="_gotcha">Leave this blank</label>

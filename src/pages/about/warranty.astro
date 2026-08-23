@@ -2,6 +2,7 @@
 import Article from '../../layouts/Article.astro';
 import site from '../../data/site.json';
 import { phoneLive, phoneHref } from '../../lib/contact';
+import { emailLive } from '../../lib/contact';
 
 const toc = [
   { id: 'structure', label: 'How coverage is structured' },
@@ -77,13 +78,13 @@ const toc = [
           line published yet, this has to fall back to the contact form rather
           than render an empty mailto: or tel: — a claim route that goes nowhere
           is worse than one more click. */}
-      {!site.emailPending && (
+      {emailLive && (
         <a href={`mailto:${site.emails.info}?subject=${encodeURIComponent('Warranty claim')}`}>{site.emails.info}</a>
       )}
-      {!site.emailPending && phoneLive && ' or '}
+      {emailLive && phoneLive && ' or '}
       {phoneLive && <a href={phoneHref}>{site.phone}</a>}
-      {site.emailPending && !phoneLive && <a href="/contact/">use the contact page</a>}.
-      {!site.emailPending && ' Email gives us a written record and lets you attach the photographs below.'}
+      {!emailLive && !phoneLive && <a href="/contact/">use the contact page</a>}.
+      {emailLive && ' Email gives us a written record and lets you attach the photographs below.'}
     </li>
     <li>Provide photographs showing the condition and its location on the building.</li>
     <li>Have your stamped drawings and delivery documentation available.</li>

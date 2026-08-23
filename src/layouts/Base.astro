@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import site from '../data/site.json';
 import locations from '../data/locations.json';
 import { phoneLive, addressLive } from '../lib/contact';
+import { emailLive } from '../lib/contact';
 
 interface Props {
   title: string;
@@ -52,7 +53,7 @@ const showAds =
   !!ads?.enabled &&
   !(ads.excludePaths ?? []).some((p: string) => Astro.url.pathname === p);
 const fullTitle = title === site.name ? `${site.name} — ${site.tagline}` : `${title} | ${site.name}`;
-const origin = (Astro.site ?? new URL('https://lonestarstructures.com')).origin;
+const origin = (Astro.site ?? new URL('https://lone-star-structures.vercel.app')).origin;
 const canonical = new URL(Astro.url.pathname, origin).href;
 // Social scrapers require an absolute URL — a root-relative path silently yields no preview.
 const ogImage = new URL(image ?? '/og/default.jpg', origin).href;
@@ -73,11 +74,11 @@ const localBusiness = {
   // Withheld until the mailbox actually receives — a dead address in schema is worse than none.
   // One address only at the business level: `email` is part of the NAP that
   // aggregators cross-check, so it has to match the footer everywhere.
-  ...(site.email && !site.emailPending ? { email: site.email } : {}),
+  ...(emailLive ? { email: site.email } : {}),
   // Departmental addresses belong on contactPoint rather than the business
   // record. contactType is a controlled vocabulary, so quotes@ rides along
   // with sales — it is the same desk, and inventing a type helps nobody.
-  ...(!site.emailPending && site.emails
+  ...(emailLive && site.emails
     ? {
         contactPoint: [
           {

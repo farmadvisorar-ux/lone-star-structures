@@ -6,11 +6,11 @@
   "phoneRaw": "",
   "phonePending": true,
   "contactName": "",
-  "email": "info@lonestarstructures.com",
+  "email": "",
   "emails": {
-    "info": "info@lonestarstructures.com",
-    "sales": "sales@lonestarstructures.com",
-    "quotes": "quotes@lonestarstructures.com"
+    "info": "",
+    "sales": "",
+    "quotes": ""
   },
   "address": {
     "street": "",

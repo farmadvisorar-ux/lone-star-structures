@@ -45,8 +45,16 @@ jobs:
           pages=$(find dist -name '*.html' | wc -l)
           echo "built $pages pages"
           test "$pages" -gt 100 || { echo "::error::only $pages pages built, expected 130+"; exit 1; }
-          # CNAME: losing it drops the custom domain back to github.io
-          test -f dist/CNAME || { echo "::error::dist/CNAME missing"; exit 1; }
+          # CNAME: losing it drops the custom domain back to github.io. Only
+          # meaningful once one is configured — this site has no custom domain
+          # yet, and inventing a placeholder risks naming a domain somebody
+          # else owns. So the rule is that the two agree, not that one exists.
+          if [ -f public/CNAME ]; then
+            test -f dist/CNAME || { echo "::error::public/CNAME exists but dist/CNAME is missing — the custom domain would be dropped"; exit 1; }
+            diff -q public/CNAME dist/CNAME >/dev/null || { echo "::error::dist/CNAME does not match public/CNAME"; exit 1; }
+          else
+            echo "  no custom domain configured — skipping CNAME check"
+          fi
           # .nojekyll: without it Pages runs Jekyll, which ignores _astro/ and
           # serves every page with no CSS or JS at all
           test -f dist/.nojekyll || { echo "::error::dist/.nojekyll missing — assets would 404"; exit 1; }
@@ -69,7 +77,7 @@ jobs:
               exit 1
             fi
           done
-          echo "CNAME=$(cat dist/CNAME) assets=$(find dist/_astro -type f | wc -l)"
+          echo "assets=$(find dist/_astro -type f | wc -l)"
 
       - name: Check titles and meta descriptions
         # Truncated or duplicated titles fail silently — nothing in the build
